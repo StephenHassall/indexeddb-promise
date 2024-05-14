@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test IndexedDB Promise Library</title>
+  <script type="module" src="run.js"></script>
+</head>
+<body>
+  <p>Look at console for testing progress.</p>
+
+  <p>
+    Perform the main tests.
+    <br>
+    <button id="run-tests">Run Tests</button>
+  </p>
+
+<script type="module">
+  import Test from "./test.js";
+  import TestFactory from "./test-factory.js";
+
+  // Get elements
+  const runTestsElement = document.getElementById('run-tests');
+
+  // Add click events
+  runTestsElement.addEventListener('click', async () => {
+    // Perform tests
+    await TestFactory.run();
+
+    // Report results
+    Test.report();    
+  });
+</script>
+</body>
+</html>

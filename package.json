@@ -1,0 +1,30 @@
+{
+  "name": "@coderundebug/indexeddb-promise",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Use IndexedDB with promises.",
+  "repository": "github:StephenHassall/indexeddb-promise",
+  "funding": "https://github.com/StephenHassall/indexeddb-promise?sponsor=1",
+  "homepage": "https://github.com/StephenHassall/indexeddb-promise",
+  "bugs": {
+    "url": "https://github.com/StephenHassall/indexeddb-promise/issues",
+    "email": "StephenPaulHassall@hotmail.com"
+  },
+  "main": "index.js",
+  "types": "./.d.js",
+  "scripts": {
+  },
+  "author": {
+    "name": "Stephen Paul Hassall",
+    "email": "StephenPaulHassall@hotmail.com",
+    "url": "https://coderundebug.com/"
+  },
+  "keywords": [
+    "frontend",
+    "promise",
+    "promises",
+    "indexeddb",
+    "database"
+  ],
+  "license": "MIT"
+}

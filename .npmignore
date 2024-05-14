@@ -1,0 +1,5 @@
+# Skip testing folder
+test/
+
+# Skip Github folder
+.github
