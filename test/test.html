@@ -17,7 +17,8 @@
 
 <script type="module">
   import Test from "./test.js";
-  import TestFactory from "./test-factory.js";
+  //import TestFactory from "./test-factory.js";
+  import TestDatabase from "./test-database.js";
 
   // Get elements
   const runTestsElement = document.getElementById('run-tests');
@@ -25,7 +26,8 @@
   // Add click events
   runTestsElement.addEventListener('click', async () => {
     // Perform tests
-    await TestFactory.run();
+    //await TestFactory.run();
+    await TestDatabase.run();
 
     // Report results
     Test.report();    

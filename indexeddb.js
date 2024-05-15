@@ -1,0 +1,3 @@
+/**
+ * indexeddb-promises
+ */
