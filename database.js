@@ -65,42 +65,105 @@ export class Database {
      * @return {Promise} A promise.
      */
     open() {
+        // If already open
+        if (this._iDbDatabase) throw new Error('Already open');
+
         // Create promise
         const promise = new Promise((resolve, reject) => {
-            // Open the database
-            const openDbRequest = window.indexedDB.open(this._name, this._version);
+            // Set open the request object
+            let openDbRequest = undefined;
 
+            // Set upgraded error
+            let upgradedError = undefined;
+
+            // Set upgraded
+            let upgraded = false;
+
+            try {
+                // Open the database
+                openDbRequest = window.indexedDB.open(this._name, this._version);
+            } catch (error) {
+                // Reject with the error and stop
+                reject(error);
+                return;
+            }
+            
             // Handle on error event
-            openDbRequest.onerror = (event) => {
+            openDbRequest.onerror = () => {
+                // Clear interface value
+                this._iDbDatabase = undefined;
+
+                // If there is an upgrade error then reject with that instead of the error
+                if (upgradedError)  { reject(upgradedError); return; }
+
                 // Reject the promise with the error
-                reject(event);
+                reject(openDbRequest.error);
             };
 
             // Handle on success event
-            openDbRequest.onsuccess = (event) => {
+            openDbRequest.onsuccess = () => {
                 // Set the database interface
                 this._iDbDatabase = openDbRequest.result;
 
-                // Resolve the promise
-                resolve();
+                // Set close event
+                this._iDbDatabase.onclose = () => {
+                    // Call _close overrided event
+                    this._close();
+                }
+
+                // Set version change event
+                this._iDbDatabase.onversionchange = () => {
+                    // Call _versionChange overrided event
+                    this._versionChange();
+                }
+
+                // If not upgraded
+                if (upgraded === false) {
+                    // Resolve the promise and stop here
+                    resolve();
+                    return;
+                }
+
+                // Call the upgrade data override
+                this._upgradeData().then(() => {
+                    // Resolve the open promise
+                    resolve();
+                }, (error) => {
+                    // Close database interface
+                    this._iDbDatabase.close();
+
+                    // Clear interface value
+                    this._iDbDatabase = undefined;
+
+                    // Reject the open promise with the error
+                    reject(error);
+                });
             };
 
             // Handle on upgrade needed event
-            openDbRequest.onupgradeneeded = async (event) => {
+            openDbRequest.onupgradeneeded = (event) => {
                 // Set the database interface
                 this._iDbDatabase = event.target.result;
 
-                // Call the on upgrade needed override
-                await this._onUpgradeNeeded();
-                
-                // Resolve the promise
-                resolve();
+                // Set upgraded
+                upgraded = true;
+
+                try {
+                    // Call the on upgrade needed override
+                    this._upgradeSchema();
+                } catch (error) {
+                    // Set the upgrade error
+                    upgradedError = error;
+
+                    // Manually abort the upgrade transaction (this forces the upgrade to stop)
+                    openDbRequest.transaction.abort();
+                }
             };
 
-            // Handle on block event
-            openDbRequest.onblock = (event) => {
+            // Handle on blocked event
+            openDbRequest.onblocked = () => {
                 // Reject the promise with the error
-                reject(event);
+                reject(openDbRequest.error);
             }
         });
 
@@ -109,23 +172,14 @@ export class Database {
     }
 
     /**
-     * Override function that is called when the database is opened and there is a new version
-     * which needs to be upgraded. Replace this function to update all the object stores and indexes
-     * to the new version.
-     * @return {Promise} A promise.
-     * @override
-     */
-    _onUpgradeNeeded() {
-        // Must never get here
-        throw new Error('Database._onUpgradeNeeded is not overridden')
-    }
-
-    /**
      * Close the database.
      */
     close() {
         // Close the database
         this._iDbDatabase.close();
+
+        // Clear interface value
+        this._iDbDatabase = undefined;
     }
 
     /**
@@ -172,4 +226,41 @@ export class Database {
         // Create and return a Transaction object
         return new Transaction(iDbTransaction);
     }
+
+    /**
+     * Override function that is called when the database is opened and there is a new version
+     * which needs to be upgraded. Replace this function to update the schema parts. You can only
+     * add and remove object stores. If you want to upgrade any of the data then override the
+     * the _upgradeData function.
+     * @override
+     */
+    _upgradeSchema() {
+        // Must never get here
+        throw new Error('Database._upgradeNeeded is not overridden');
+    }
+
+    /**
+     * Override function that is called when the database is opened and there is a new version
+     * which needs to be upgraded. Replace this function to update the data parts. You can add,
+     * update or remove and of the data within the object stores. You can not add or remove
+     * object stores. To do that use the _upgradeSchema function.
+     * @return {Promise} A promise. You can use this override with the async prefix.
+     */
+    _upgradeData() {
+        // The default process is to do nothing. Just return a resolved promise
+        return Promise.resolve();
+    }
+
+    /**
+     * Override function that is called when the database is closed unexpectedly.
+     * It is not fired when the Database.close function is called.
+     * @override
+     */
+    _close() { }
+
+    /**
+     * Override function that is called when the database is upgrade from elsewhere, in
+     * another tab for example.
+     */
+    _versionChange() { }
 }

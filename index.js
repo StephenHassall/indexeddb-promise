@@ -39,8 +39,8 @@ export class Index {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbIndex.count(key);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -55,8 +55,8 @@ export class Index {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbIndex.get(key);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -71,8 +71,8 @@ export class Index {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbIndex.getAll(query, count);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -87,8 +87,8 @@ export class Index {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbIndex.getAllKeys(query, count);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -103,8 +103,8 @@ export class Index {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbIndex.getKey(key);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -119,8 +119,8 @@ export class Index {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbIndex.openCursor(query, direction);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -137,8 +137,8 @@ export class Index {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbIndex.openCursor(query, direction);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {

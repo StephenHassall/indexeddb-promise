@@ -41,9 +41,9 @@ export default class Tools {
             };
 
             // Set on error
-            request.onerror = (event) => {
+            request.onerror = () => {
                 // Reject the promise
-                reject(event);
+                reject(request.error);
             };
         });
 

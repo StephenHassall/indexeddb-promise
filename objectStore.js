@@ -40,8 +40,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.add(value, key);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -56,8 +56,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.clear();
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -72,8 +72,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.count(query);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -92,8 +92,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.delete(key);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -112,8 +112,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.get(key);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -128,8 +128,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.getAll(query, count);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -144,8 +144,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.getAllKeys(query, count);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -160,8 +160,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.getKey(key);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -184,8 +184,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.openCursor(query, direction);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -202,8 +202,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.openCursor(query, direction);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -220,8 +220,8 @@ export class ObjectStore {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbObjectStore.put(value, key);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {

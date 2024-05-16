@@ -45,8 +45,8 @@ export class Cursor {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbCursor.delete();
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
@@ -61,8 +61,8 @@ export class Cursor {
         const promise = new Promise((resolve, reject) => {
             const request = this._iDbCursor.update(value);
 
-            request.onerror = (event) => {
-                reject(event);
+            request.onerror = () => {
+                reject(request.error);
             };
 
             request.onsuccess = () => {
