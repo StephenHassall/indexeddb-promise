@@ -12,7 +12,7 @@ export class TimeoutPromise {
         // Create prmoise
         const promise = new Promise((resolve, reject) => {
             // Set the timeout for the delayed amount
-            setTimeout(() => {
+            const timerId = setTimeout(() => {
                 // Resolve the timeout
                 resolve('timeout');
             }, delay);

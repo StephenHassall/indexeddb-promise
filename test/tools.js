@@ -34,16 +34,16 @@ export default class Tools {
             // Delete the database
             const request = window.indexedDB.deleteDatabase(name);
 
-            // Set on success
-            request.onsuccess = () => {
-                // Resolve the promise
-                resolve();
-            };
-
             // Set on error
             request.onerror = () => {
                 // Reject the promise
                 reject(request.error);
+            };
+
+            // Set on success
+            request.onsuccess = () => {
+                // Resolve the promise
+                resolve();
             };
         });
 

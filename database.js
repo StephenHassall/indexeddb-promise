@@ -4,7 +4,7 @@
  * Do not create an instance of this class, but create your own class that
  * derives from it.
  */
-import { ObjectStore } from "./objectStore.js";
+import { ObjectStore } from "./object-store.js";
 import { Transaction } from "./transaction.js";
 
 export class Database {
@@ -76,9 +76,6 @@ export class Database {
             // Set upgraded error
             let upgradedError = undefined;
 
-            // Set upgraded
-            let upgraded = false;
-
             try {
                 // Open the database
                 openDbRequest = window.indexedDB.open(this._name, this._version);
@@ -117,27 +114,8 @@ export class Database {
                     this._versionChange();
                 }
 
-                // If not upgraded
-                if (upgraded === false) {
-                    // Resolve the promise and stop here
-                    resolve();
-                    return;
-                }
-
-                // Call the upgrade data override
-                this._upgradeData().then(() => {
-                    // Resolve the open promise
-                    resolve();
-                }, (error) => {
-                    // Close database interface
-                    this._iDbDatabase.close();
-
-                    // Clear interface value
-                    this._iDbDatabase = undefined;
-
-                    // Reject the open promise with the error
-                    reject(error);
-                });
+                // Resolve the open promise
+                resolve();
             };
 
             // Handle on upgrade needed event
@@ -145,12 +123,29 @@ export class Database {
                 // Set the database interface
                 this._iDbDatabase = event.target.result;
 
-                // Set upgraded
-                upgraded = true;
+                // Create transaction object
+                const transaction = new Transaction(openDbRequest.transaction);
 
                 try {
-                    // Call the on upgrade needed override
-                    this._upgradeSchema();
+                    // Call the on upgrade needed override (this is either done with async or not)
+                    const upgradePromise = this._upgrade(transaction, event.oldVersion, event.newVersion);
+
+                    // If the upgrade function returned a promise
+                    if (upgradePromise instanceof Promise) {
+                        // Wait for the promise to finish
+                        upgradePromise.then(
+                            // Resolved (do nothing)
+                            ()=>{},
+                            // Reject
+                            (error)=>{
+                                // Set the upgrade error
+                                upgradedError = error;
+
+                                // Manually abort the upgrade transaction (this forces the upgrade to stop)
+                                openDbRequest.transaction.abort();
+                            }
+                        );
+                    }
                 } catch (error) {
                     // Set the upgrade error
                     upgradedError = error;
@@ -229,26 +224,19 @@ export class Database {
 
     /**
      * Override function that is called when the database is opened and there is a new version
-     * which needs to be upgraded. Replace this function to update the schema parts. You can only
-     * add and remove object stores. If you want to upgrade any of the data then override the
-     * the _upgradeData function.
+     * which needs to be upgraded. Replace this function to update all the parts required. It can
+     * be an async function or not. You must not use await on any non-indexedDb asynchronous functions.
+     * You must override this function otherwise you will get an error when trying to open the database.
+     * @param {Transaction} transaction The upgrade transaction. You can not create another another transaction
+     * while performing any upgrade steps.
+     * @param {Number} oldVersion The current version of the database that needs upgrading.
+     * @param {Number} newVersion The new version the database is upgrading to.
+     * @return {Promise|undefined} You can return a promise (by using an async function), or return nothing.
      * @override
      */
-    _upgradeSchema() {
+    _upgrade(transaction, oldVersion, newVersion) {
         // Must never get here
-        throw new Error('Database._upgradeNeeded is not overridden');
-    }
-
-    /**
-     * Override function that is called when the database is opened and there is a new version
-     * which needs to be upgraded. Replace this function to update the data parts. You can add,
-     * update or remove and of the data within the object stores. You can not add or remove
-     * object stores. To do that use the _upgradeSchema function.
-     * @return {Promise} A promise. You can use this override with the async prefix.
-     */
-    _upgradeData() {
-        // The default process is to do nothing. Just return a resolved promise
-        return Promise.resolve();
+        throw new Error('Database._upgrade is not overridden');
     }
 
     /**

@@ -6,19 +6,36 @@
  */
 
 export class Factory {
-    databases() {
-        return window.indexedDB.databases;
+    /**
+     * Get the list of databases.
+     * @return {Promise<Object>} A promise that resolves to an array of objects with "name", "version" properties.
+     */
+    static databases() {
+        // Get and return a promise to get the list of databases
+        return window.indexedDB.databases();
     }
 
-    deleteDatabase(name, options) {
+    /**
+     * Delete a database.
+     * @param {String} name The name of the database to be deleted.
+     * @param {Object} [options] Extra options if required.
+     * @return {Promise} A promise.
+     */
+    static deleteDatabase(name, options) {
+        // Create promise
         const promise = new Promise((resolve, reject) => {
+            // Delete the database
             const openDbRequest = window.indexedDB.deleteDatabase(name, options);
 
+            // Handle on error event
             openDbRequest.onerror = () => {
+                // Reject the promise with the error
                 reject(openDbRequest.error);
             };
 
+            // Handle on success event
             openDbRequest.onsuccess = () => {
+                // Resolve the promise
                 resolve();
             };
 
@@ -29,7 +46,7 @@ export class Factory {
             }
         });
 
+        // Return the promise
         return promise;
     }
-
 }
