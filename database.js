@@ -62,6 +62,8 @@ export class Database {
      * Open the database. This checks to see if the version is newer than the current one on
      * the browser, and if so then it will call the _onUpgradeNeeded override function. You need
      * to override this function to create/upgrade the database object stores and indexes.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @return {Promise} A promise.
      */
     open() {

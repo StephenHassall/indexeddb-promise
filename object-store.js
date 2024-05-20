@@ -64,6 +64,8 @@ export class ObjectStore {
     /**
      * Add a new value into the object store. If the key already exists then it
      * will throw an error.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {Object} value The object to be stored.
      * @param {*} [key] If the object store has no key path then this key will be used.
      * @return {Promise<*>} A promise that resolves with the key value.
@@ -93,6 +95,8 @@ export class ObjectStore {
 
     /**
      * Clear the object store by deleting all objects from it.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @return {Promise} A promise.
      */
     clear() {
@@ -120,6 +124,8 @@ export class ObjectStore {
 
     /**
      * Count the number of objects in the object store that match the query.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {IDBKeyRange} [query] The query to use when counting. If not given then all objects
      * are courted.
      * @return {Promise<Number>} A promise that resolves with the count value.
@@ -166,6 +172,8 @@ export class ObjectStore {
 
     /**
      * Delete one or more objects from the object store.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} key Either a key value or a key range object.
      * @return {Promise} A promise.
      */
@@ -204,6 +212,8 @@ export class ObjectStore {
     /**
      * Get the first matching object from the object store. There may be more than one found
      * but only the first one is given.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} key Either a key value or a key range object.
      * @return {Promise<*>} A promise that resolves the first object found.
      */
@@ -232,6 +242,8 @@ export class ObjectStore {
 
     /**
      * Get all the matching objects from the object store.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of objects that can be returned.
      * @return {Promise<Object[]} A promise that resolves with a list of found objects.
@@ -261,6 +273,8 @@ export class ObjectStore {
 
     /**
      * Get all the keys that match the query.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of keys that can be returned.
      * @return {Promise<*[]>} A promise that resolves with a list of found keys.
@@ -291,6 +305,8 @@ export class ObjectStore {
     /**
      * Get the first matching key from the object store. There may be more than one found
      * but only the first one is given.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @return {Promise<*>} A promise that resolves with the first key found.
      */
@@ -333,6 +349,8 @@ export class ObjectStore {
     /**
      * Open a cursor to the object store that contains their values. Cursors are used to move through a list of objects
      * inside the object store.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @param {String} [direction] Either "next", "nextunique", "prev" or "prevunique".
      * @return {Promise<CursorWithValue|undefined>} A promise that resolves with either the cursor with value object or undefined
@@ -370,6 +388,8 @@ export class ObjectStore {
     /**
      * Open a cursor to the object store that contains their keys only (not the values). Cursors are used to move through
      * a list of objects inside the object store.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @param {String} [direction] Either "next", "nextunique", "prev" or "prevunique".
      * @return {Promise<Cursor|undefined>} A promise that resolves with either the cursor object (with keys, but no values) or undefined
@@ -407,6 +427,8 @@ export class ObjectStore {
     /**
      * Update an existing object, or insert it if it does not exist, into the object store.
      * Consider using Cursor.update instead.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {Object} value The object to be updated.
      * @param {*} [key] If the object store has no key path then this key will be used.
      * @return {Promise<*>} A promise that resolves with the key value.

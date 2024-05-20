@@ -55,11 +55,14 @@ export class Transaction {
      * @return {DOMStringList} List of object store names. Use .item(index) or [index] to get the name.
      */
     get objectStoreNames() {
+        // Return the object store names
         return this._iDbTransaction.objectStoreNames;
     }
 
     /**
      * Abort the transaction. This rolls back any changes made to the object stores data.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @return {Promise} A promise.
      */
     abort() {
@@ -74,11 +77,11 @@ export class Transaction {
                 reject(this._iDbTransaction.error);
             };
 
-            // Handle on success event
-            this._iDbTransaction.onsuccess = () => {
+            // Handle on abort event
+            this._iDbTransaction.onabort = () => {
                 // Resolve the promise
                 resolve();
-            };
+            }
         });
 
         // Return the promise
@@ -90,6 +93,8 @@ export class Transaction {
      * the transaction is automatically committed when it is finished with.
      * However, it when using promises, it is best to call the commit function
      * when you have finish all transaction linked tasks.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @return {Promise} A promise.
      */
     commit() {

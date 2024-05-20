@@ -29,6 +29,8 @@ export class CursorWithValue extends Cursor {
 
     /**
      * Delete the cursor's current record/object.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @return {Promise} A promise.
      */
     delete() {
@@ -56,6 +58,8 @@ export class CursorWithValue extends Cursor {
 
     /**
      * Update the cursor's current record/object with the new value.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*} value The new object to update with.
      * @return {Promise<*>} A promise that resolves with the new key value.
      */

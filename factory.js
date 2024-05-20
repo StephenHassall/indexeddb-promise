@@ -17,6 +17,8 @@ export class Factory {
 
     /**
      * Delete a database.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {String} name The name of the database to be deleted.
      * @param {Object} [options] Extra options if required.
      * @return {Promise} A promise.

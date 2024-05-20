@@ -65,6 +65,8 @@ export class Cursor {
     /**
      * Moves the cursor on by the given number of steps. The Cursor.continue function moves the cursor
      * by 1 step, but here you can advance a number of steps in one go.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {Number} count The number of records to advance by.
      * @return {Promise} A promise.
      */
@@ -93,6 +95,8 @@ export class Cursor {
 
     /**
      * Continue on to the next record/object.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*} [key] The key use to find the next record.
      * @return {Promise} A promise.
      */
@@ -121,6 +125,8 @@ export class Cursor {
 
     /**
      * Continue on to the next record/object using the primary key.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*} key The key to look with.
      * @param {*} primaryKey The primary key to look with.
      * @return {Promise} A promise.

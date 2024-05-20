@@ -61,6 +61,8 @@ export class Index {
 
     /**
      * Count the number of objects in the index that match the query.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] The key or key range to use when counting. If not given then all objects
      * are courted.
      * @return {Promise<Number>} A promise that resolves with the count value.
@@ -91,6 +93,8 @@ export class Index {
     /**
      * Get the first matching object with the index. There may be more than one found
      * but only the first one is given.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @return {Promise<*>} A promise that resolves the first object found.
      */
@@ -119,6 +123,8 @@ export class Index {
 
     /**
      * Get all the matching objects with the index.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of objects that can be returned.
      * @return {Promise<Object[]} A promise that resolves with a list of found objects.
@@ -148,6 +154,8 @@ export class Index {
 
     /**
      * Get all the keys that match the query.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of keys that can be returned.
      * @return {Promise<*[]>} A promise that resolves with a list of found keys.
@@ -177,6 +185,8 @@ export class Index {
 
     /**
      * Get all the keys that match the query.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of keys that can be returned.
      * @return {Promise<*[]>} A promise that resolves with a list of found keys.
@@ -207,6 +217,8 @@ export class Index {
     /**
      * Open a cursor with the index over the object store that contains their values. Cursors are used to move through a list of objects
      * inside the object store, using the index.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [range] Either a key value or a key range object.
      * @param {String} [direction] Either "next", "nextunique", "prev" or "prevunique".
      * @return {Promise<CursorWithValue|undefined>} A promise that resolves with either the cursor with value object or undefined
@@ -244,6 +256,8 @@ export class Index {
     /**
      * Open a cursor with the index over the object store that contains their keys only (not the values). Cursors are used to move through
      * a list of objects inside the object store, using the index.
+     * 
+     * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [range] Either a key value or a key range object.
      * @param {String} [direction] Either "next", "nextunique", "prev" or "prevunique".
      * @return {Promise<Cursor|undefined>} A promise that resolves with either the cursor object (with keys, but no values) or undefined
