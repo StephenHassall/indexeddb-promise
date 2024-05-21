@@ -24,7 +24,7 @@ export class CursorWithValue extends Cursor {
      */
     get value() {
         // Return the value
-        this._iDbCursorWithValue.value;
+        return this._iDbCursorWithValue.value;
     }
 
     /**

@@ -1,5 +1,5 @@
 /**
- * Test traonsaction.
+ * Test transaction.
  */
 import { Database } from "../database.js";
 import { Transaction } from "../transaction.js";
