@@ -21,6 +21,8 @@
   import TestDatabase from "./test-database.js";
   import TestTransaction from "./test-transaction.js";
   import TestObjectStore from "./test-object-store.js";
+  import TestIndex from "./test-index.js";
+  import TestCursorWithValue from "./test-cursor-with-value.js";
 
   // Get elements
   const runTestsElement = document.getElementById('run-tests');
@@ -31,7 +33,9 @@
     //await TestFactory.run();
     //await TestDatabase.run();
     //await TestTransaction.run();
-    TestObjectStore.run();
+    //TestObjectStore.run();
+    //TestIndex.run();
+    TestCursorWithValue.run();
 
     // Report results
     Test.report();    

@@ -399,7 +399,7 @@ export class ObjectStore {
         // Create promise
         const promise = new Promise((resolve, reject) => {
             // Open the cursor
-            const request = this._iDbObjectStore.openCursor(query, direction);
+            const request = this._iDbObjectStore.openKeyCursor(query, direction);
 
             // Handle the on error event
             request.onerror = () => {

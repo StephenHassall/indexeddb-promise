@@ -184,18 +184,18 @@ export class Index {
     }
 
     /**
-     * Get all the keys that match the query.
+     * Get the first matching key from the query. There may be more than one found
+     * but only the first one is given.
      * 
      * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
-     * @param {Number} [count] The maximum number of keys that can be returned.
-     * @return {Promise<*[]>} A promise that resolves with a list of found keys.
+     * @return {Promise<*>} A promise that resolves with the first key found.
      */
-    getAllKeys(query, count) {
+    getKey(key) {
         // Create promise
         const promise = new Promise((resolve, reject) => {
-            // Get all the keys with the index
-            const request = this._iDbIndex.getAllKeys(query, count);
+            // Get the key form with index
+            const request = this._iDbIndex.getKey(key);
 
             // Handle on error event
             request.onerror = () => {
@@ -205,7 +205,7 @@ export class Index {
 
             // Handle on success event
             request.onsuccess = () => {
-                // Resolve the promise with the list of keys
+                // Resolve the promise with the key value
                 resolve(request.result);
             };
         });
@@ -213,7 +213,7 @@ export class Index {
         // Return the promise
         return promise;
     }
-
+ 
     /**
      * Open a cursor with the index over the object store that contains their values. Cursors are used to move through a list of objects
      * inside the object store, using the index.
@@ -267,7 +267,7 @@ export class Index {
         // Create promise
         const promise = new Promise((resolve, reject) => {
             // Open the cursor
-            const request = this._iDbIndex.openCursor(range, direction);
+            const request = this._iDbIndex.openKeyCursor(range, direction);
 
             // Handle the on error event
             request.onerror = () => {

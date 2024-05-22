@@ -36,16 +36,16 @@ export default class TestObjectStore {
         await Tools.deleteAllDatabases();
 
         // Perform tests
-        //await TestObjectStore.testCreate();
-        //await TestObjectStore.testAdd();
-        //await TestObjectStore.testPut();
-        //await TestObjectStore.testClear();
-        //await TestObjectStore.testDelete();
-        //await TestObjectStore.testGet();
-        //await TestObjectStore.testGetAll();
-        //await TestObjectStore.testGetKey();
-        //await TestObjectStore.testGetAllKeys();
-        //await TestObjectStore.testOpenCursor();
+        await TestObjectStore.testCreate();
+        await TestObjectStore.testAdd();
+        await TestObjectStore.testPut();
+        await TestObjectStore.testClear();
+        await TestObjectStore.testDelete();
+        await TestObjectStore.testGet();
+        await TestObjectStore.testGetAll();
+        await TestObjectStore.testGetKey();
+        await TestObjectStore.testGetAllKeys();
+        await TestObjectStore.testOpenCursor();
         await TestObjectStore.testOpenKeyCursor();
     }
 
@@ -750,8 +750,10 @@ export default class TestObjectStore {
         Test.assert(objectStore1);
         let cursor = await objectStore1.openKeyCursor();
         Test.assert(cursor);
+        Test.assertEqual(cursor.primaryKey, 1);
         Test.assertEqual(cursor.key, 1);
         await cursor.continue();
+        Test.assertEqual(cursor.primaryKey, 2);
         Test.assertEqual(cursor.key, 2);
         database.close();
     }

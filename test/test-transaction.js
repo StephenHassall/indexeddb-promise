@@ -33,9 +33,9 @@ export default class TestTransaction {
         await Tools.deleteAllDatabases();
 
         // Perform tests
-        //await TestTransaction.testObjectStoreNames();
-        //await TestTransaction.testCreateTransaction();
-        //await TestTransaction.testAbort();
+        await TestTransaction.testObjectStoreNames();
+        await TestTransaction.testCreateTransaction();
+        await TestTransaction.testAbort();
         await TestTransaction.testCommit();
     }
 
