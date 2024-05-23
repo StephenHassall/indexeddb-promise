@@ -1,3 +1,6 @@
+# Skip example folder
+example/
+
 # Skip testing folder
 test/
 

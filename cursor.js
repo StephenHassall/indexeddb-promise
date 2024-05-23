@@ -68,7 +68,8 @@ export class Cursor {
      * 
      * **WARNING:** Must be used with `async/await`.
      * @param {Number} count The number of records to advance by.
-     * @return {Promise} A promise.
+     * @return {Promise<IDBCursor|null>} A promise that resolves to an IDBCursor or null if no more
+     * items in the cursor exist.
      */
     advance(count) {
         // Create promise
@@ -82,7 +83,7 @@ export class Cursor {
             // Handle on success event
             this._iDbRequest.onsuccess = () => {
                 // Resolve the promise
-                resolve();
+                resolve(this._iDbRequest.result);
             };
 
             // Advance the cursor
@@ -98,7 +99,8 @@ export class Cursor {
      * 
      * **WARNING:** Must be used with `async/await`.
      * @param {*} [key] The key use to find the next record.
-     * @return {Promise} A promise.
+     * @return {Promise<IDBCursor|null>} A promise that resolves to an IDBCursor or null if no more
+     * items in the cursor exist.
      */
     continue(key) {
         // Create promise
@@ -112,7 +114,7 @@ export class Cursor {
             // Handle on success event
             this._iDbRequest.onsuccess = () => {
                 // Resolve the promise
-                resolve();
+                resolve(this._iDbRequest.result);
             };
 
             // Continue on to the next record in cursor
@@ -129,7 +131,8 @@ export class Cursor {
      * **WARNING:** Must be used with `async/await`.
      * @param {*} key The key to look with.
      * @param {*} primaryKey The primary key to look with.
-     * @return {Promise} A promise.
+     * @return {Promise<IDBCursor|null>} A promise that resolves to an IDBCursor or null if no more
+     * items in the cursor exist.
      */
     continuePrimaryKey(key, primaryKey) {
         // Create promise
@@ -143,7 +146,7 @@ export class Cursor {
             // Handle on success event
             this._iDbRequest.onsuccess = () => {
                 // Resolve the promise
-                resolve();
+                resolve(this._iDbRequest.result);
             };
 
             // Continue on to the next record in cursor using the primary key

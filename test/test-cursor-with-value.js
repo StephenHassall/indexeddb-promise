@@ -183,6 +183,9 @@ export default class TestCursorWithValue {
         // id 1, dog
         Test.assertEqual(cursorWithValue.primaryKey, 4);
         Test.assertEqual(cursorWithValue.key, 'dog');
+        await cursorWithValue.continue();
+        Test.assertEqual(cursorWithValue.primaryKey, 5);
+        Test.assertEqual(cursorWithValue.key, 'dog');
         database.close();
     }
     
