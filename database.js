@@ -27,7 +27,7 @@ export class Database {
      * @return {IDBDatabase} The database object.
      */
     get iDbDatabase() {
-        // Return the database intergace object
+        // Return the database interface object
         return this._iDbDatabase;
     }
 

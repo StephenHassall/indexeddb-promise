@@ -16,6 +16,15 @@ export class Index {
     }
 
     /**
+     * Get index interface object.
+     * @return {IDBIndex} The index object.
+     */
+    get iDbIndex() {
+        // Return the index interface object
+        return this._iDbIndex;
+    }
+
+    /**
      * Gets the key path value that was used when creating the index.
      * @return {String} The key path value.
      */
@@ -125,9 +134,9 @@ export class Index {
      * Get all the matching objects with the index.
      * 
      * **WARNING:** Must be used with `async/await`.
-     * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
+     * @param {*|IDBKeyRange} [query] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of objects that can be returned.
-     * @return {Promise<Object[]} A promise that resolves with a list of found objects.
+     * @return {Promise<*[]} A promise that resolves with a list of found objects.
      */
     getAll(query, count) {
         // Create promise
@@ -156,7 +165,7 @@ export class Index {
      * Get all the keys that match the query.
      * 
      * **WARNING:** Must be used with `async/await`.
-     * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
+     * @param {*|IDBKeyRange} [query] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of keys that can be returned.
      * @return {Promise<*[]>} A promise that resolves with a list of found keys.
      */

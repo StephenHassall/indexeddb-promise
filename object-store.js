@@ -17,6 +17,15 @@ export class ObjectStore {
     }
 
     /**
+     * Get object store interface object.
+     * @return {IDBObjectStore} The object store object.
+     */
+    get iDbObjectStore() {
+        // Return the object store interface object
+        return this._iDbObjectStore;
+    }
+
+    /**
      * Gets the auto increment value that was used when creating the object store.
      * @return {Boolean} The auto increment value.
      */
@@ -246,7 +255,7 @@ export class ObjectStore {
      * **WARNING:** Must be used with `async/await`.
      * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of objects that can be returned.
-     * @return {Promise<Object[]} A promise that resolves with a list of found objects.
+     * @return {Promise<*[]} A promise that resolves with a list of found objects.
      */
     getAll(query, count) {
         // Create promise
@@ -275,7 +284,7 @@ export class ObjectStore {
      * Get all the keys that match the query.
      * 
      * **WARNING:** Must be used with `async/await`.
-     * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
+     * @param {*|IDBKeyRange} [query] Either a key value or a key range object.
      * @param {Number} [count] The maximum number of keys that can be returned.
      * @return {Promise<*[]>} A promise that resolves with a list of found keys.
      */
@@ -351,7 +360,7 @@ export class ObjectStore {
      * inside the object store.
      * 
      * **WARNING:** Must be used with `async/await`.
-     * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
+     * @param {*|IDBKeyRange} [query] Either a key value or a key range object.
      * @param {String} [direction] Either "next", "nextunique", "prev" or "prevunique".
      * @return {Promise<CursorWithValue|undefined>} A promise that resolves with either the cursor with value object or undefined
      * if nothing was found.
@@ -390,7 +399,7 @@ export class ObjectStore {
      * a list of objects inside the object store.
      * 
      * **WARNING:** Must be used with `async/await`.
-     * @param {*|IDBKeyRange} [key] Either a key value or a key range object.
+     * @param {*|IDBKeyRange} [query] Either a key value or a key range object.
      * @param {String} [direction] Either "next", "nextunique", "prev" or "prevunique".
      * @return {Promise<Cursor|undefined>} A promise that resolves with either the cursor object (with keys, but no values) or undefined
      * if nothing was found.

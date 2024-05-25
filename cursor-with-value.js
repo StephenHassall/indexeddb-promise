@@ -19,6 +19,15 @@ export class CursorWithValue extends Cursor {
     }
 
     /**
+     * Get cursor with value interface object.
+     * @return {IDBCursorWithValue} The cursor with value object.
+     */
+    get iDbCursorWithValue() {
+        // Return the cursor with value interface object
+        return this._iDbCursorWithValue;
+    }
+
+    /**
      * Get the cursor's current object value.
      * @return {*} The current object value.
      */

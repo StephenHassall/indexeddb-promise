@@ -174,18 +174,23 @@ export default class TestCursorWithValue {
         // Order bird, cat, dog, fish, frog
         Test.assertEqual(cursorWithValue.primaryKey, 2);
         Test.assertEqual(cursorWithValue.key, 'bird');
-        await cursorWithValue.advance(2);
+        let result = await cursorWithValue.advance(2);
+        Test.assertEqual(result, true);
         // id 2, cat
         Test.assertEqual(cursorWithValue.primaryKey, 1);
         Test.assertEqual(cursorWithValue.key, 'cat');
-        await cursorWithValue.advance(3);
+        result = await cursorWithValue.advance(3);
+        Test.assertEqual(result, true);
         // id 2, cat
         // id 1, dog
         Test.assertEqual(cursorWithValue.primaryKey, 4);
         Test.assertEqual(cursorWithValue.key, 'dog');
-        await cursorWithValue.continue();
+        result = await cursorWithValue.continue();
+        Test.assertEqual(result, true);
         Test.assertEqual(cursorWithValue.primaryKey, 5);
         Test.assertEqual(cursorWithValue.key, 'dog');
+        result = await cursorWithValue.advance(100);
+        Test.assertEqual(result, false);
         database.close();
     }
     
@@ -217,10 +222,17 @@ export default class TestCursorWithValue {
         objectStore = transaction.objectStore('object-store');
         let cursorWithValue = await objectStore.openCursor();
         Test.assertEqual(cursorWithValue.key, 1);
-        await cursorWithValue.continue();
+        let result = await cursorWithValue.continue();
+        Test.assertEqual(result, true);
         Test.assertEqual(cursorWithValue.key, 2);
-        await cursorWithValue.continue(5);
+        result = await cursorWithValue.continue(5);
+        Test.assertEqual(result, true);
         Test.assertEqual(cursorWithValue.key, 5);
+        result = await cursorWithValue.continue();
+        Test.assertEqual(result, true);
+        Test.assertEqual(cursorWithValue.key, 6);
+        result = await cursorWithValue.continue();
+        Test.assertEqual(result, false);
         database.close();
     }
 
@@ -255,9 +267,12 @@ export default class TestCursorWithValue {
         // Order bird, cat, dog, fish, frog
         Test.assertEqual(cursorWithValue.primaryKey, 2);
         Test.assertEqual(cursorWithValue.key, 'bird');
-        await cursorWithValue.continuePrimaryKey('dog', 4);
+        let result = await cursorWithValue.continuePrimaryKey('dog', 4);
+        Test.assertEqual(result, true);
         Test.assertEqual(cursorWithValue.primaryKey, 4);
         Test.assertEqual(cursorWithValue.key, 'dog');
+        result = await cursorWithValue.continuePrimaryKey('unknown', 4);
+        Test.assertEqual(result, false);
         database.close();
     }
 

@@ -15,6 +15,15 @@ export class Transaction {
     }
 
     /**
+     * Get transaction interface object.
+     * @return {IDBTransaction} The transaction object.
+     */
+    get iDbTransaction() {
+        // Return the transaction interface object
+        return this._iDbTransaction;
+    }
+
+    /**
      * Gets the database the transaction is linked to.
      * @return {IDBDatabase} The database interface object.
      */

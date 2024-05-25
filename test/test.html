@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Test IndexedDB Promise Library</title>
-  <script type="module" src="run.js"></script>
 </head>
 <body>
   <p>Look at console for testing progress.</p>
@@ -30,12 +29,12 @@
   // Add click events
   runTestsElement.addEventListener('click', async () => {
     // Perform tests
-    //await TestFactory.run();
-    //await TestDatabase.run();
-    //await TestTransaction.run();
-    //TestObjectStore.run();
-    //TestIndex.run();
-    TestCursorWithValue.run();
+    await TestFactory.run();
+    await TestDatabase.run();
+    await TestTransaction.run();
+    await TestObjectStore.run();
+    await TestIndex.run();
+    await TestCursorWithValue.run();
 
     // Report results
     Test.report();    

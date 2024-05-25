@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IndexedDB Promise Example - New Version</title>
+  <script type="module" src="new-version.js"></script>
+</head>
+<body>
+  <p>Example showing how to upgrade the database.</p>
+
+  <p>
+    Delete <b>cat</b> database.
+    <br>
+    <button onclick="deleteCatDatabase()">Delete Cat Database</button>
+  </p>
+
+  <p>
+    Create version 1 of the <b>cat</b> database.
+    <br>
+    <button onclick="createCatVersionDatabase()">Create Cat Version 1 Database</button>
+  </p>
+
+  <p>
+    Create version 2 of the <b>cat</b> database.
+    <br>
+    <button onclick="openCatDatabase()">Open Cat Database (version 2)</button>
+  </p>
+</body>
+</html>

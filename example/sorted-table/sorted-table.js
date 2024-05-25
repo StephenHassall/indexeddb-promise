@@ -27,25 +27,24 @@ class SortedTableDatabase extends Database {
         objectStore.createIndex('index-id', 'id');
         objectStore.createIndex('index-name', 'name');
         objectStore.createIndex('index-age', 'age');
-        objectStore.createIndex('index-admin', 'admin');
 
         // Create sample data
-        await objectStore.add({ id: 1, name: 'Stephen Hassall', age: 49, admin: true });
-        await objectStore.add({ id: 2, name: 'Sue Smith', age: 23, admin: true });
-        await objectStore.add({ id: 3, name: 'Bob Green', age: 37, admin: false });
-        await objectStore.add({ id: 4, name: 'Peter Abbot', age: 26, admin: false });
-        await objectStore.add({ id: 5, name: 'Ian Bail', age: 18, admin: false });
-        await objectStore.add({ id: 6, name: 'Mary Carrow', age: 41, admin: false });
-        await objectStore.add({ id: 7, name: 'Paul Coby', age: 26, admin: false });
-        await objectStore.add({ id: 8, name: 'Charlotte Dawson', age: 31, admin: false });
-        await objectStore.add({ id: 9, name: 'Camila Drake', age: 19, admin: false });
-        await objectStore.add({ id: 10, name: 'Amelia Emmerson', age: 56, admin: false });
-        await objectStore.add({ id: 11, name: 'Noah Everley', age: 63, admin: false });
-        await objectStore.add({ id: 12, name: 'Arthur Fletcher', age: 51, admin: false });
-        await objectStore.add({ id: 13, name: 'Jack Ford', age: 47, admin: false });
-        await objectStore.add({ id: 14, name: 'Harry Hanson', age: 42, admin: false });
-        await objectStore.add({ id: 15, name: 'Oliver Ivory', age: 19, admin: false });
-        await objectStore.add({ id: 16, name: 'Daniel Jackson', age: 23, admin: false });
+        await objectStore.add({ id: 1, name: 'Stephen Hassall', age: 49 });
+        await objectStore.add({ id: 2, name: 'Sue Smith', age: 23 });
+        await objectStore.add({ id: 3, name: 'Bob Green', age: 37 });
+        await objectStore.add({ id: 4, name: 'Peter Abbot', age: 26 });
+        await objectStore.add({ id: 5, name: 'Ian Bail', age: 18 });
+        await objectStore.add({ id: 6, name: 'Mary Carrow', age: 41 });
+        await objectStore.add({ id: 7, name: 'Paul Coby', age: 26 });
+        await objectStore.add({ id: 8, name: 'Charlotte Dawson', age: 31 });
+        await objectStore.add({ id: 9, name: 'Camila Drake', age: 19 });
+        await objectStore.add({ id: 10, name: 'Amelia Emmerson', age: 56 });
+        await objectStore.add({ id: 11, name: 'Noah Everley', age: 63 });
+        await objectStore.add({ id: 12, name: 'Arthur Fletcher', age: 51 });
+        await objectStore.add({ id: 13, name: 'Jack Ford', age: 47 });
+        await objectStore.add({ id: 14, name: 'Harry Hanson', age: 42 });
+        await objectStore.add({ id: 15, name: 'Oliver Ivory', age: 19 });
+        await objectStore.add({ id: 16, name: 'Daniel Jackson', age: 23 });
     }
 }
 
@@ -88,10 +87,6 @@ class SortedTable extends HTMLElement {
                     <th id="head-age">
                         Age
                         <span id="head-age-mark"></span>
-                    </th>
-                    <th id="head-admin">
-                        Admin
-                        <span id="head-admin-mark"></span>
                     </th>
                 </tr>
             </thead>
@@ -138,8 +133,6 @@ class SortedTable extends HTMLElement {
         this._headNameMarkElement = this.shadowRoot.getElementById('head-name-mark');
         this._headAgeElement = this.shadowRoot.getElementById('head-age');
         this._headAgeMarkElement = this.shadowRoot.getElementById('head-age-mark');
-        this._headAdminElement = this.shadowRoot.getElementById('head-admin');
-        this._headAdminMarkElement = this.shadowRoot.getElementById('head-admin-mark');
         this._tableBodyElement = this.shadowRoot.getElementById('table-body');
         this._firstElement = this.shadowRoot.getElementById('first');
         this._previousElement = this.shadowRoot.getElementById('previous');
@@ -152,7 +145,6 @@ class SortedTable extends HTMLElement {
         this._headIdClick = this._headIdClick.bind(this);
         this._headNameClick = this._headNameClick.bind(this);
         this._headAgeClick = this._headAgeClick.bind(this);
-        this._headAdminClick = this._headAdminClick.bind(this);
         this._firstClickEvent = this._firstClickEvent.bind(this);
         this._previousClickEvent = this._previousClickEvent.bind(this);
         this._nextClickEvent = this._nextClickEvent.bind(this);
@@ -183,7 +175,6 @@ class SortedTable extends HTMLElement {
         this._headIdElement.addEventListener('click', this._headIdClick);
         this._headNameElement.addEventListener('click', this._headNameClick);
         this._headAgeElement.addEventListener('click', this._headAgeClick);
-        this._headAdminElement.addEventListener('click', this._headAdminClick);
         this._firstElement.addEventListener('click', this._firstClickEvent);
         this._previousElement.addEventListener('click', this._previousClickEvent);
         this._nextElement.addEventListener('click', this._nextClickEvent);
@@ -221,7 +212,6 @@ class SortedTable extends HTMLElement {
         this._headIdElement.removeEventListener('click', this._headIdClick);
         this._headNameElement.removeEventListener('click', this._headNameClick);
         this._headAgeElement.removeEventListener('click', this._headAgeClick);
-        this._headAdminElement.removeEventListener('click', this._headAdminClick);
         this._firstElement.removeEventListener('click', this._firstClickEvent);
         this._previousElement.removeEventListener('click', this._previousClickEvent);
         this._nextElement.removeEventListener('click', this._nextClickEvent);
@@ -239,7 +229,6 @@ class SortedTable extends HTMLElement {
         this._headIdMarkElement.textContent = '';
         this._headNameMarkElement.textContent = '';
         this._headAgeMarkElement.textContent = '';
-        this._headAdminMarkElement.textContent = '';
 
         // Set up down
         let direction = '(up)';
@@ -250,7 +239,6 @@ class SortedTable extends HTMLElement {
             case 'id': this._headIdMarkElement.textContent = direction; break;
             case 'name': this._headNameMarkElement.textContent = direction; break;
             case 'age': this._headAgeMarkElement.textContent = direction; break;
-            case 'admin': this._headAdminMarkElement.textContent = direction; break;
         }
     }
 
@@ -272,7 +260,6 @@ class SortedTable extends HTMLElement {
             case 'id': index = objectStore.index('index-id'); break;
             case 'name': index = objectStore.index('index-name'); break;
             case 'age': index = objectStore.index('index-age'); break;
-            case 'admin': index = objectStore.index('index-admin'); break;
         }
 
         // Clear row items
@@ -290,7 +277,7 @@ class SortedTable extends HTMLElement {
 
         // Move cursor to start of current page
         if (cursorOffset !== 0) {
-            if (await cursor.advance(cursorOffset) === null) return;
+            if (await cursor.advance(cursorOffset) === false) return;
         }
 
         // For each item in page
@@ -313,17 +300,11 @@ class SortedTable extends HTMLElement {
             tdElement.textContent = cursor.value.age.toString();
             tableRow.appendChild(tdElement);
 
-            // Add admin
-            tdElement = document.createElement('td');
-            if (cursor.value.admin === true) tdElement.textContent = 'YES';
-            if (cursor.value.admin === false) tdElement.textContent = 'NO';
-            tableRow.appendChild(tdElement);
-
             // Add to table body
             this._tableBodyElement.appendChild(tableRow);
 
             // Move on to the next cursor
-            if (await cursor.continue() === null) break;
+            if (await cursor.continue() === false) break;
         }
 
         // Set current page
@@ -379,14 +360,6 @@ class SortedTable extends HTMLElement {
     _headAgeClick() {
         // Process age header
         this._processHeader('age');
-    }
-
-    /**
-     * Header admin click event.
-     */
-    _headAdminClick() {
-        // Process admin header
-        this._processHeader('admin');
     }
 
     /**

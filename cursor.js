@@ -18,6 +18,15 @@ export class Cursor {
     }
 
     /**
+     * Get cursor interface object.
+     * @return {IDBCursor} The cursor object.
+     */
+    get iDbCursor() {
+        // Return the cursor interface object
+        return this._iDbCursor;
+    }
+
+    /**
      * Gets the direction value that was used when creating the cursor object.
      * @return {String} Either "next", "nextunique", "prev" pr "prevunique".
      */
@@ -68,8 +77,7 @@ export class Cursor {
      * 
      * **WARNING:** Must be used with `async/await`.
      * @param {Number} count The number of records to advance by.
-     * @return {Promise<IDBCursor|null>} A promise that resolves to an IDBCursor or null if no more
-     * items in the cursor exist.
+     * @return {Promise<Boolean>} A promise that resolves to either true (found) or false (end of cursor).
      */
     advance(count) {
         // Create promise
@@ -82,8 +90,14 @@ export class Cursor {
 
             // Handle on success event
             this._iDbRequest.onsuccess = () => {
-                // Resolve the promise
-                resolve(this._iDbRequest.result);
+                // If result is null then no move records found
+                if (this._iDbRequest.result === null) {
+                    // Resolve the promise with false
+                    resolve(false);
+                } else {
+                    // Resolve the promise with true
+                    resolve(true);
+                }
             };
 
             // Advance the cursor
@@ -99,8 +113,7 @@ export class Cursor {
      * 
      * **WARNING:** Must be used with `async/await`.
      * @param {*} [key] The key use to find the next record.
-     * @return {Promise<IDBCursor|null>} A promise that resolves to an IDBCursor or null if no more
-     * items in the cursor exist.
+     * @return {Promise<Boolean>} A promise that resolves to either true (found) or false (end of cursor).
      */
     continue(key) {
         // Create promise
@@ -113,8 +126,14 @@ export class Cursor {
 
             // Handle on success event
             this._iDbRequest.onsuccess = () => {
-                // Resolve the promise
-                resolve(this._iDbRequest.result);
+                // If result is null then no move records found
+                if (this._iDbRequest.result === null) {
+                    // Resolve the promise with false
+                    resolve(false);
+                } else {
+                    // Resolve the promise with true
+                    resolve(true);
+                }
             };
 
             // Continue on to the next record in cursor
@@ -131,8 +150,7 @@ export class Cursor {
      * **WARNING:** Must be used with `async/await`.
      * @param {*} key The key to look with.
      * @param {*} primaryKey The primary key to look with.
-     * @return {Promise<IDBCursor|null>} A promise that resolves to an IDBCursor or null if no more
-     * items in the cursor exist.
+     * @return {Promise<Boolean>} A promise that resolves to either true (found) or false (end of cursor).
      */
     continuePrimaryKey(key, primaryKey) {
         // Create promise
@@ -145,8 +163,14 @@ export class Cursor {
 
             // Handle on success event
             this._iDbRequest.onsuccess = () => {
-                // Resolve the promise
-                resolve(this._iDbRequest.result);
+                // If result is null then no move records found
+                if (this._iDbRequest.result === null) {
+                    // Resolve the promise with false
+                    resolve(false);
+                } else {
+                    // Resolve the promise with true
+                    resolve(true);
+                }
             };
 
             // Continue on to the next record in cursor using the primary key

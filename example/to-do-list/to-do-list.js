@@ -37,6 +37,7 @@ class ToDoList extends HTMLElement {
         <div id="item-list"></div>
         <input id="item-input" type="text">
         <button id="add">Add</button>
+        <button id="delete">Delete</button>
         `;
     }
 
@@ -58,9 +59,18 @@ class ToDoList extends HTMLElement {
         this._itemListElement = this.shadowRoot.getElementById('item-list');
         this._itemInputElement = this.shadowRoot.getElementById('item-input');
         this._addElement = this.shadowRoot.getElementById('add');
+        this._deleteElement = this.shadowRoot.getElementById('delete');
 
-        // Set add event function binding to this
+        // Set event function binding to this
+        this._itemClickEvent = this._itemClickEvent.bind(this);
         this._addClickEvent = this._addClickEvent.bind(this);
+        this._deleteClickEvent = this._deleteClickEvent.bind(this);
+
+        // Hide delete button
+        this._deleteElement.style.display = 'none';
+
+        // Set selected item element
+        this._selectedItemElement = null;
     }
 
     /**
@@ -70,6 +80,7 @@ class ToDoList extends HTMLElement {
     connectedCallback() {
         // Add events
         this._addElement.addEventListener('click', this._addClickEvent);
+        this._deleteElement.addEventListener('click', this._deleteClickEvent);
 
         // Refresh item list
         this._refreshItemList();
@@ -82,6 +93,7 @@ class ToDoList extends HTMLElement {
     disconnectedCallback() {
         // Remove events
         this._addElement.removeEventListener('click', this._addClickEvent);
+        this._deleteElement.removeEventListener('click', this._deleteClickEvent);
     }
 
     /**
@@ -127,9 +139,76 @@ class ToDoList extends HTMLElement {
     }
 
     /**
+     * Delete click event.
+     */
+    async _deleteClickEvent() {
+        // Create database object
+        const database = new ToDoListDatabase();
+
+        // Open the database
+        await database.open();
+
+        // Open transaction (for reading only)
+        const transaction = database.transaction('to-do-list', 'readwrite');
+
+        // Open the object store (table)
+        const toDoListObjectStore = transaction.objectStore('to-do-list');
+
+        // Delete the record
+        await toDoListObjectStore.delete(this._selectedItemElement._record.id);
+
+        // Commit the transaction
+        await transaction.commit();
+
+        // Close database
+        database.close();
+
+        // Refresh item list
+        this._refreshItemList();
+    }
+
+    /**
+     * Item click event.
+     */
+    _itemClickEvent(event) {
+        // Get element
+        const itemElement = event.target;
+
+        // If something already selected
+        if (this._selectedItemElement) {
+            // If the same
+            if (this._selectedItemElement._record.id === itemElement._record.id) {
+                // Reset background color
+                this._selectedItemElement.style.backgroundColor = 'inherit';
+
+                // Clear selected
+                this._selectedItemElement = null;
+
+                // Hide delete button
+                this._deleteElement.style.display = 'none';
+
+                // Stop here
+                return;
+            }
+        }
+
+        // Set the selected element
+        this._selectedItemElement = itemElement;
+
+        // Set background color
+        this._selectedItemElement.style.backgroundColor = 'lightblue';
+
+        // Show delete button
+        this._deleteElement.style.display = 'inline-block';
+    }
+
+    /**
      * Refresh the item list
      */
     async _refreshItemList() {
+        // Reset selected item element
+        this._selectedItemElement = null;
+
         // Create database object
         const database = new ToDoListDatabase();
 
@@ -153,8 +232,18 @@ class ToDoList extends HTMLElement {
             // Create DIV element
             const divElement = document.createElement('div');
 
+            // Set record
+            divElement._record = record;
+
             // Add inner text
             divElement.textContent = record.text;
+
+            // Set styles
+            divElement.style.cursor = 'pointer';
+            divElement.style.userSelect = 'none';
+
+            // Add click event
+            divElement.addEventListener('click', this._itemClickEvent);
 
             // Add to list
             this._itemListElement.appendChild(divElement);
