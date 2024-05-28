@@ -1,7 +1,7 @@
 {
   "name": "@coderundebug/indexeddb-promise",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Use IndexedDB with promises.",
   "repository": "github:StephenHassall/indexeddb-promise",
   "funding": "https://github.com/StephenHassall/indexeddb-promise?sponsor=1",
@@ -10,7 +10,7 @@
     "url": "https://github.com/StephenHassall/indexeddb-promise/issues",
     "email": "StephenPaulHassall@hotmail.com"
   },
-  "main": "index.js",
+  "main": "indexeddb.js",
   "types": "./.d.js",
   "scripts": {
   },
