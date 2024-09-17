@@ -1,7 +1,7 @@
 {
   "name": "@coderundebug/indexeddb-promise",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Use IndexedDB with promises.",
   "repository": "github:StephenHassall/indexeddb-promise",
   "funding": "https://github.com/StephenHassall/indexeddb-promise?sponsor=1",

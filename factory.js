@@ -43,8 +43,11 @@ export class Factory {
 
             // Handle on blocked event
             openDbRequest.onblocked = () => {
-                // Reject the promise with the error
-                reject(openDbRequest.error);
+                // The "openDbRequest" will hang around until it is unblocked and will then finish
+                // deleting the database.
+                
+                // Reject the promise with "blocked" error
+                reject(new Error('Blocked'));
             }
         });
 

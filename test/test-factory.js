@@ -24,6 +24,14 @@ class TestFactory2Database extends Database {
     _upgrade(transaction, oldVersion, newVersion) { }
 }
 
+// Test factory delete blocked database
+class TestFactoryDeleteBlockedDatabase extends Database {
+    constructor() {
+        super('factory-delete-blocked', 1);
+    }
+    _upgrade(transaction, oldVersion, newVersion) { }
+}
+
 // Main testing
 export default class TestFactory {
     /**
@@ -95,7 +103,7 @@ export default class TestFactory {
         Test.assertEqual(databases[0].version, 1);
         Test.assertEqual(databases[1].name, 'factory2-database');
         Test.assertEqual(databases[1].version, 2);
-        Factory.deleteDatabase('factory1-database');
+        await Factory.deleteDatabase('factory1-database');
         databases = await Factory.databases();
         Test.assert(databases);
         Test.assertEqual(databases.length, 1);
@@ -104,7 +112,7 @@ export default class TestFactory {
 
         // Delete again
         Test.describe('Delete again');
-        Factory.deleteDatabase('factory1-database');
+        await Factory.deleteDatabase('factory1-database');
         databases = await Factory.databases();
         Test.assert(databases);
         Test.assertEqual(databases.length, 1);
@@ -113,7 +121,22 @@ export default class TestFactory {
 
         // Delete two
         Test.describe('Delete two');
-        Factory.deleteDatabase('factory2-database');
+        await Factory.deleteDatabase('factory2-database');
+        databases = await Factory.databases();
+        Test.assert(databases);
+        Test.assertEqual(databases.length, 0);
+
+        // Delete blocked
+        Test.describe('Blocked');
+        database = new TestFactoryDeleteBlockedDatabase();
+        await database.open();
+        try {
+            await Factory.deleteDatabase('factory-delete-blocked');
+        } catch (e) {
+            Test.assertEqual(e.message, 'Blocked');
+        }
+        database.close();
+        await Factory.deleteDatabase('factory-delete-blocked');
         databases = await Factory.databases();
         Test.assert(databases);
         Test.assertEqual(databases.length, 0);

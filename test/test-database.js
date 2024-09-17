@@ -151,6 +151,32 @@ class TestOpenTwiceDatabase extends Database {
     }
 }
 
+// Test blocked 1 database
+class TestBlocked1Database extends Database {
+    constructor() {
+        super('blocked', 1);
+    }
+    _upgrade(transaction, oldVersion, newVersion) {
+        Test.describe('Blocked (1)');
+        Test.assertEqual(this.version, 1);
+        let objectStore1 = this.createObjectStore('objectStore1');
+        Test.assert(objectStore1);
+    }
+}
+
+// Test blocked 2 database
+class TestBlocked2Database extends Database {
+    constructor() {
+        super('blocked', 2);
+    }
+    _upgrade(transaction, oldVersion, newVersion) {
+        Test.describe('Blocked (2)');
+        Test.assertEqual(this.version, 2);
+        let objectStore1 = this.createObjectStore('objectStore2');
+        Test.assert(objectStore1);
+    }
+}
+
 // Main testing
 export default class TestDatabase {
     /**
@@ -371,5 +397,23 @@ export default class TestDatabase {
             Test.assertEqual(e.message, 'Failed to execute \'deleteObjectStore\' on \'IDBDatabase\': The database is not running a version change transaction.');
         }
         database.close();
+
+        // Handle blocked database
+        Test.describe('Blocked');
+        database = new TestBlocked1Database();
+        database2 = new TestBlocked2Database();
+        await database.open();
+        Test.assert(database);
+        Test.assert(database.iDbDatabase);
+        try {
+            await database2.open();
+        } catch (e) {
+            Test.assertEqual(e.message, 'Blocked');
+        }
+        database.close();
+        await database2.open();
+        Test.assert(database2);
+        Test.assert(database2.iDbDatabase);
+        database2.close();
     }
 }

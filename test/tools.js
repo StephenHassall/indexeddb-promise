@@ -45,6 +45,12 @@ export default class Tools {
                 // Resolve the promise
                 resolve();
             };
+
+            // Set on blocked
+            request.onblocked = () => {
+                // Reject the promise
+                reject(new Error('Blocked'));
+            }
         });
 
         // Return the promise
