@@ -46,3 +46,8 @@ await database2.open();
 // Close version 2 database
 database2.close();
 ```
+
+## Version 1.0.4 (2025-05-17)
+Instead of using `window.indexedDB` it now uses `self.indexedDB`.
+The `self` points to `window` when not used in a worker thread, and points to `WorkerGlobalScope` when inside a worker.
+This was done so that the library can be used inside a worker thread.

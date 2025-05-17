@@ -80,7 +80,7 @@ export class Database {
 
             try {
                 // Open the database
-                openDbRequest = window.indexedDB.open(this._name, this._version);
+                openDbRequest = self.indexedDB.open(this._name, this._version);
             } catch (error) {
                 // Reject with the error and stop
                 reject(error);
